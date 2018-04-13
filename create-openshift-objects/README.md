@@ -149,8 +149,8 @@ openshift_host: 'openshift-master'
 ```
 
 
-        2.  This playbook assumes that you are already logged into the Openshift cluster as admin or any similar user with cluster-admin role.
+2.  This playbook assumes that you are already logged into the Openshift cluster as admin or any similar user with cluster-admin role.
 
-        3. The playbook will create a service account initially with "ProjectRequest" and "GroupRequest" API access privileges and generates  a token for the same. This token will be used in Ansible "oc" module definitions for creating projects and groups.
+3. The playbook will create a service account initially with "ProjectRequest" and "GroupRequest" API access privileges and generates  a token for the same. This token will be used in Ansible "oc" module definitions for creating projects and groups.
 
-         4. This playbook while in execution will create some files, which will be saved under "files" directory.
+4. This playbook while in execution will create some files, which will be saved under "files" directory.
