@@ -5,7 +5,7 @@
 1.  Projects should be automatically created in OpenShift, whenever a new subgroup is created in AD under the main group "_LSGRHO-openshift-groups_"
 1.  Naming convention of the subgroups should be as follows
 
-            **_G<COUNTRY><BUSINESS UNIT>-<PROJECT NAME>-<OPTIONAL STRING>_**
+    **_G<COUNTRY><BUSINESS UNIT>-<PROJECT NAME>-<OPTIONAL STRING>_**
 
 
 
@@ -14,7 +14,7 @@
 
   
 
-           **_(2-CHAR COUNTRY)(BUSINESS UNIT CODE)-(PROJECT NAME)-(OPENSHIFT ENVIRONMENT)_**
+   **_(2-CHAR COUNTRY)(BUSINESS UNIT CODE)-(PROJECT NAME)-(OPENSHIFT ENVIRONMENT)_**
 
 
 
@@ -32,9 +32,6 @@
 
 1.  Create a shell script (**_ldap-sync.sh)_** to get the sub-groups from the main group,  "**_LSGRHO-openshift-groups_**" . We will get the sub-groups and write the output to a file (whitelist.txt). 
 1.  Then we will run the "**_oc adm groups sync"_** command " against the **_whitelist.txt_** . Please find below the script.
-
- \
-
 
 
 ```
@@ -58,25 +55,22 @@ oc adm groups sync --whitelist=/root/.cron/whitelist.txt --sync-config /root/.cr
 
 1.  Add the script to crontab for root . Please find below the example cron entry
 
-     00 11 * * * root /bin/sh /root/.cron/ldap-sync.sh > /root/.cron/ldap-sync.log 2>&1
+        00 11 * * * root /bin/sh /root/.cron/ldap-sync.sh > /root/.cron/ldap-sync.log 2>&1
+Where,  
 
-   Where,  \
-  **_ldap-sync.sh_** - is the script doing the group sync.
+**_ldap-sync.sh_** is the script doing the group sync.
 
- **_/root/.cron/ldap-sync.log - _**We are redirecting both stdout and stderr from the script to  this log file.
+ **_/root/.cron/ldap-sync.log_** - We are redirecting both stdout and stderr from the script to  this log file.
 
- ** _Whitelist.txt- _**List of groups to be synced. Generated from the "ldapsearch" query output.
+ **_Whitelist.txt_** - List of groups to be synced. Generated from the "ldapsearch" query output.
 
-  **_/root/.cron/augmented_ad_config_nested.yml _**-  Contains LDAP config details to connect to LDAP (AD) server
+  **_/root/.cron/augmented_ad_config_nested.yml_** -  Contains LDAP config details to connect to LDAP (AD) server
 
            
 
 
 
 1.  Similarly, we need to add another script which performs the following.
-
-             
-
 
 
 *   Figure out whether the cluster is PROD or NON-PROD
@@ -85,7 +79,7 @@ oc adm groups sync --whitelist=/root/.cron/whitelist.txt --sync-config /root/.cr
 *   Grant "view" (read-only) role to the groups on respective projects (If the cluster is PROD)
 *   Please find below the script : **_group_to_project_map.sh_**
 
-    ```
+```
  #!/bin/bash
   
 
