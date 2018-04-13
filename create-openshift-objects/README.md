@@ -1,6 +1,6 @@
 # Use Case
 
-Given the list of 28 BU's, create an Ansible playbook to automate the provisioning of some default projects and groups, following the below mentioned criteria
+Given the list of 28 BU's (Business Units), create an Ansible playbook to automate the provisioning of some default projects and groups, following the below mentioned criteria
 
 For PROD
 
