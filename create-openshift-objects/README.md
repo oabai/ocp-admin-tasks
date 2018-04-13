@@ -1,38 +1,126 @@
-Role Name
-=========
+# Use Case
 
-A brief description of the role goes here.
+Given the list of 28 BU's, create an Ansible playbook to automate the provisioning of some default projects and groups, following the below mentioned criteria
 
-Requirements
-------------
+For PROD
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-Role Variables
---------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+1.  One project per BU. Each project should have a default group with edit access.
+1.  Name of the projects should follow the syntax "project-_buname_-prod", where "buname" is the name of respective BU's.
+1.  Groups  should follow the syntax "group-_buname_-prod_" _, where "buname" is the name of respective BU's.
 
-Dependencies
-------------
+For NON-PROD
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
-Example Playbook
-----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+1.  3 projects per BU. Each project should have a default group with edit access.
+1.  Name of the projects should follow the syntax "project-_buname_-sit" , "project-_buname_-uat" and "project-_buname_-dev". 
+1.  Name of groups should follow the syntax "group-_buname_-sit" , "group-_buname_-uat" and "group-_buname_-dev".
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
-License
--------
+## How to do this using shell script?
 
-BSD
+For this script to work properly, please find the prerequisites mentioned below.
 
-Author Information
-------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+
+1.  BU details should be added to a file. For eg: "**_bu_list_**"
+
+  
+
+
+```
+          
+          twlife          PCA Life Assurance Co. Ltd. Taiwan
+          vnesiv          Eastspring Investments Fund Management Company
+          vnlife          Prudential Vietnam Assurance Private Ltd
+          vnpvfc          Prudential Vietnam Finance Co
+```
+
+
+            
+
+
+
+1.  Also, pass a parameter to the script, prod or non-prod
+1.  Script will fetch the BU details from the file and process accordingly.
+1.  Should be logged as admin user to your Openshift cluster (Using OC)
+1.  OC cli should be installed.
+1.  Script should be executed as mentioned below
+
+   
+
+         # ./create_resources.sh prod                   # For production cluster
+
+         # ./create_resources.sh  non-prod          # For non-prod cluster
+
+ 
+
+          Where, **_create_resources.sh _**is the name of the script.
+
+       
+
+      7. Please find below the script
+
+          
+
+
+```
+ #!/bin/bash
+RED="\033[1;31m"
+GREEN="\033[0;32m"
+NOCOLOR="\033[0m"
+
+#Defining a help_function
+
+help_function()
+ {
+#Checking whether any arguments has been passed.
+if [ $# -eq 0 ]
+   then
+   echo -e "${RED}Please pass one parameter. Acceptable values are ${GREEN} prod ${NOCOLOR} and ${GREEN} non-prod ${NOCOLOR}"
+   exit 1
+fi
+ }
+
+
+# Check if executed as OCP system:admin
+#if [[ "$(oc whoami)" != "system:admin" ]]; then
+#  echo -n "Trying to log in as system:admin... "
+#  oc login -u system:admin > /dev/null && echo "done."
+#fi
+
+case "$1" in
+
+  prod)           echo "Production cluster"
+                  #cluster= " " (Placeholder to define cluster information)
+                  for i in `cat bu_list | awk {'print $1'}`
+                  do
+                    display_name=`cat bu_list | grep $i | cut -d' ' -f2-`
+                    oc new-project project-$i-prod --display-name="$display_name"
+                    oc adm groups new group-$i-prod
+                    oc policy add-role-to-group view group-$i-prod -n project-$i-prod
+                  done
+  ;;
+  non-prod)       echo "Non-Production cluster"
+                  #cluster= " " (Placeholder to define cluster information)
+                  for i in `cat bu_list | awk {'print $1'}`
+                  do
+                    display_name=`cat bu_list | grep $i | cut -d' ' -f2-`
+                    oc new-project project-$i-sit --display-name="$display_name"
+                    oc new-project project-$i-uat --display-name="$display_name"
+                    oc new-project project-$i-dev --display-name="$display_name"
+                    oc adm groups new group-$i-sit
+                    oc adm groups new group-$i-uat
+                    oc adm groups new group-$i-dev
+                    oc policy add-role-to-group admin group-$i-sit -n project-$i-sit
+                    oc policy add-role-to-group admin group-$i-uat -n project-$i-uat
+                    oc policy add-role-to-group admin group-$i-prod -n project-$i-prod
+                  done
+  ;;
+*)               help_function
+  ;;
+
+esac
+```
