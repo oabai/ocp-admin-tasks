@@ -61,7 +61,7 @@ For this script to work properly, please find the prerequisites mentioned below.
 
        
 
-      7. Please find below the script
+Please find below the script
 
           
 
