@@ -25,21 +25,16 @@ We have to delete all the Cluster Service Classes (CSC) apart from what we shoul
 
 1.  Get the list of "ClusterServiceClass"
 
-'''
-oc get clusterserviceclass
-'''
+        oc get clusterserviceclass
 
 ClusterServiceClass will be in the following format .
 
-'''
-Bb6092c8-3300-11e8-9602-080027594559
-'''
+      Bb6092c8-3300-11e8-9602-080027594559
+
 
   2.   Figure out which service class to be deleted. For that, execute the following command to generate a mapping of ClusterServiceClass ID and externalName (name of the template  where CSC is referring to)
 
-                   '''
-                   oc get clusterserviceclasses -o=custom-columns=ID:.spec.externalID,NAME:.spec.externalName | grep -v NAME
-                   '''
+           oc get clusterserviceclasses -o=custom-columns=ID:.spec.externalID,NAME:.spec.externalName | grep -v NAME
 
 This will give an output as follows.
 
@@ -58,7 +53,7 @@ Now, we can easily figure out which Service Class needs to deleted.
 
 3.  Delete the service classes not needed using the following command, for eg:
 
-                     '''oc delete clusterserviceclass/bb5c14b7-3300-11e8-9602-080027594559'''
+        oc delete clusterserviceclass/bb5c14b7-3300-11e8-9602-080027594559
 
 Replace the Cluster Service ID with the one which you want to delete.
 
