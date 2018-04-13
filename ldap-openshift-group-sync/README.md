@@ -5,7 +5,7 @@
 1.  Projects should be automatically created in OpenShift, whenever a new subgroup is created in AD under the main group "_LSGRHO-openshift-groups_"
 1.  Naming convention of the subgroups should be as follows
 
-  **_G<COUNTRY><BUSINESS UNIT>-<PROJECT NAME>-<OPTIONAL STRING>_**
+G<COUNTRY><BUSINESS UNIT>-<PROJECT NAME>-<OPTIONAL STRING>
 
 
 
@@ -26,7 +26,7 @@
 
 
 1.  Create a shell script (**_ldap-sync.sh_**) to get the sub-groups from the main group,  "**_LSGRHO-openshift-groups_**" . We will get the sub-groups and write the output to a file (whitelist.txt). 
-2.  Then we will run the "**_oc adm groups sync_**" command " against the **_whitelist.txt_** . Please find below the script.
+2.  Then we will run the "**_oc adm groups sync_**" command against the "**_whitelist.txt_**" . Please find below the script.
 
 
 ```
