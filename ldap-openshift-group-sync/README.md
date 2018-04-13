@@ -3,22 +3,22 @@
 
 
 1.  Projects should be automatically created in OpenShift, whenever a new subgroup is created in AD under the main group "_LSGRHO-openshift-groups_"
-1.  Naming convention of the subgroups should be as follows
+2.  Naming convention of the subgroups should be as follows
 
-G<COUNTRY><BUSINESS UNIT>-<PROJECT NAME>-<OPTIONAL STRING>
+      G<COUNTRY><BUSINESS UNIT>-<PROJECT NAME>-<OPTIONAL STRING>
 
 
 
-1.  Groups should be automatically created in OpenShift from the corresponding AD sub-groups. Need a shell script that will be executed as a cron job in OpenShift master or from Bastion host with  oc "admin" access to OpenShift master.
-2.  Projects should be created automatically. Name of the projects should be based on the strings in the sub-group.  Project name should use the following naming convention.
+3.  Groups should be automatically created in OpenShift from the corresponding AD sub-groups. Need a shell script that will be executed as a cron job in OpenShift master or from Bastion host with  oc "admin" access to OpenShift master.
+4.  Projects should be created automatically. Name of the projects should be based on the strings in the sub-group.  Project name should use the following naming convention.
 
 **_(2-CHAR COUNTRY)(BUSINESS UNIT CODE)-(PROJECT NAME)-(OPENSHIFT ENVIRONMENT)_**
 
 
 
-3.  If the cluster is PROD, then the OpenShift groups should be granted read-only access in the respective projects.
-4.  If the cluster is NON-PROD, then the Openshift groups should be granted "admin" access in the respective projects.
-5.  Steps 4, 5 and 6 should be implemented in a shell script executed as a cron job at regular intervals.
+5.  If the cluster is PROD, then the OpenShift groups should be granted read-only access in the respective projects.
+6.  If the cluster is NON-PROD, then the Openshift groups should be granted "admin" access in the respective projects.
+7.  Steps 4, 5 and 6 should be implemented in a shell script executed as a cron job at regular intervals.
 
 
 ##       How to deploy this scripts manually?
@@ -54,8 +54,11 @@ oc adm groups sync --whitelist=/root/.cron/whitelist.txt --sync-config /root/.cr
 Where,  
 
 **_ldap-sync.sh_** is the script doing the group sync.
+
 **_/root/.cron/ldap-sync.log_** - We are redirecting both stdout and stderr from the script to  this log file.
+
 **_Whitelist.txt_** - List of groups to be synced. Generated from the "ldapsearch" query output.
+
 **_/root/.cron/augmented_ad_config_nested.yml_** -  Contains LDAP config details to connect to LDAP (AD) server
 
            
