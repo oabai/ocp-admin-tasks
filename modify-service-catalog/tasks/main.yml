@@ -1,5 +1,6 @@
 ---
 # tasks file for modify-service-catalog
+#Please modify the hosts name to match with whay you have configured in your Ansible inventory.
 - hosts: openshift-master
   gather_facts: no
   #include_vars: files/bu_list_dict.yaml
