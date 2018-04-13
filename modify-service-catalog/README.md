@@ -25,29 +25,20 @@ We have to delete all the Cluster Service Classes (CSC) apart from what we shoul
 
 1.  Get the list of "ClusterServiceClass"
 
-                   _ _
+         '''oc get clusterserviceclass'''
 
-_             oc get clusterserviceclass_
+ClusterServiceClass will be in the following format .
 
-       
-
-            ClusterServiceClass will be in the following format .
-
-       
-
-             Bb6092c8-3300-11e8-9602-080027594559
+       '''Bb6092c8-3300-11e8-9602-080027594559'''
 
   2.   Figure out which service class to be deleted. For that, execute the following command to generate a mapping of ClusterServiceClass ID and externalName (name of the template  where CSC is referring to)
 
-_oc get clusterserviceclasses     -o=custom-columns=ID:.spec.externalID,NAME:.spec.externalName | grep -v NAME_
+                    '''oc get clusterserviceclasses       -o=custom-columns=ID:.spec.externalID,NAME:.spec.externalName | grep -v NAME'''
 
 This will give an output as follows.
 
-      
-
-
 ```
-ID                                         NAME                                                                 
+ID                                                                         NAME                                                                 
 
 bb5c14b7-3300-11e8-9602-080027594559   mariadb-persistent
 bb5ea480-3300-11e8-9602-080027594559   mongodb-ephemeral
@@ -61,7 +52,7 @@ Now, we can easily figure out which Service Class needs to deleted.
 
 3.  Delete the service classes not needed using the following command, for eg:
 
-   _oc delete clusterserviceclass/bb5c14b7-3300-11e8-9602-080027594559_
+                     '''oc delete clusterserviceclass/bb5c14b7-3300-11e8-9602-080027594559'''
 
 Replace the Cluster Service ID with the one which you want to delete.
 
@@ -70,10 +61,9 @@ Replace the Cluster Service ID with the one which you want to delete.
 
 
 
-1.  This can be executed in different environments. Please modify the "**_ocenv"_** variable in "**_envvars.yml_**" file under "vars" directory.
-1.  Name of templates to be retained should be given as a variable list. Please modify 
-
-            '**_csc_ext_name_list_**"  in "**_envvars.yml_**" file under "vars" directory. Please find below example   
+1.  This can be executed in different environments. Please modify the "**ocenv"** variable in "**envvars.yml**" file under "vars" directory.
+2.  Name of templates to be retained should be given as a variable list. Please modify 
+'**csc_ext_name_list**"  in "**envvars.yml**" file under "vars" directory. Please find below example   
 
 
 ```
@@ -86,8 +76,8 @@ openshift_host: 'openshift-master'
 
  
 
-     3. Once the playbook is executed, all the templates except wat mentioned in    **_csc_ext_name_list_** will be removed from Service Catalog.
+ 3. Once the playbook is executed, all the templates except wat mentioned in    **csc_ext_name_list** will be removed from Service Catalog.
 
-     4. "**_openshift_host_**" variable should be set to the FQDN or hostname of OpenShift Master.
+ 4. "**openshift_host**" variable should be set to the FQDN or hostname of OpenShift Master.
 
-     5. Playbook creates some files while executing. These files be created under "**_files_**" directory in the playbook.
+ 5. Playbook creates some files while executing. These files be created under "**files**" directory in the playbook.
