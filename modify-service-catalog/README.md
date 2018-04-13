@@ -33,7 +33,7 @@ ClusterServiceClass will be in the following format .
 
   2.   Figure out which service class to be deleted. For that, execute the following command to generate a mapping of ClusterServiceClass ID and externalName (name of the template  where CSC is referring to)
 
-                    '''oc get clusterserviceclasses       -o=custom-columns=ID:.spec.externalID,NAME:.spec.externalName | grep -v NAME'''
+'''oc get clusterserviceclasses       -o=custom-columns=ID:.spec.externalID,NAME:.spec.externalName | grep -v NAME'''
 
 This will give an output as follows.
 
