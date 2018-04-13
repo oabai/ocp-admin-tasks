@@ -73,7 +73,7 @@ Replace the Cluster Service ID with the one which you want to delete.
 1.  This can be executed in different environments. Please modify the "**_ocenv"_** variable in "**_envvars.yml_**" file under "vars" directory.
 2.  Name of templates to be retained should be given as a variable list. Please modify 
 
-            '**_csc_ext_name_list_**"  in "**_envvars.yml_**" file under "vars" directory. Please find below example   
+'**_csc_ext_name_list_**"  in "**_envvars.yml_**" file under "vars" directory. Please find below example   
 
 
 ```
