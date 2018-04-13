@@ -124,3 +124,33 @@ case "$1" in
 
 esac
 ```
+## How to configure this using Ansible playbook?
+
+
+
+1.  Following variables should be added to "envvar.yml" file under "vars" directory.
+
+            
+
+
+```
+---
+# Values of ocenv can either prod or non-prod
+ocenv: 'non-prod'
+
+# Suffix for non-prod project names
+nonprod_list: ['sit', 'uat', 'dev']
+
+# Name of Service Account user that should be created.
+sa_user: 'ansible-user'
+
+# Hostname or FQDN of Openshift master/endpoint
+openshift_host: 'openshift-master'
+```
+
+
+        2.  This playbook assumes that you are already logged into the Openshift cluster as admin or any similar user with cluster-admin role.
+
+        3. The playbook will create a service account initially with "ProjectRequest" and "GroupRequest" API access privileges and generates  a token for the same. This token will be used in Ansible "oc" module definitions for creating projects and groups.
+
+         4. This playbook while in execution will create some files, which will be saved under "files" directory.
