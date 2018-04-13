@@ -5,7 +5,7 @@
 1.  Projects should be automatically created in OpenShift, whenever a new subgroup is created in AD under the main group "_LSGRHO-openshift-groups_"
 2.  Naming convention of the subgroups should be as follows
 
-      G<COUNTRY><BUSINESS UNIT>-<PROJECT NAME>-<OPTIONAL STRING>
+     G<COUNTRY><BUSINESS UNIT>-<PROJECT NAME>-<OPTIONAL STRING>
 
 
 
